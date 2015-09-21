@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS liquitest;
+
+CREATE DATABASE liquitest DEFAULT CHARSET=utf8;
+
+
+

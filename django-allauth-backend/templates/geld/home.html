@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+	{% blocktrans %}THIS IS HOME{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+<section>
+	<h2>{% blocktrans %}AT HOME, THE VALUE OF P{% endblocktrans %}</h1>
+	<p>{% blocktrans with a=request.GET.a %}The value of p is --{{ a }}--{% endblocktrans %}</p>
+	
+	{{ request.user.username }} / {{ request.user.email }}
+	
+</section>
+{% endblock %}

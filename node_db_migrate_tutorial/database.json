@@ -1,0 +1,9 @@
+{
+  "test": {
+    "driver": "mysql",
+    "user": "[your user]",
+    "password": "[your pass]",
+    "host": "localhost",
+    "database": "liquitest"
+  }
+}

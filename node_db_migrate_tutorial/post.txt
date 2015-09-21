@@ -1,0 +1,64 @@
+ <a href="" target="_blank"></a>
+
+Managing your database migrations with node db-migrate
+
+To continue with the research on database migrations started with <a href="http://bytefilia.com/managing-database-schema-changes-liquibase-existing-schema/" target="_blank">the post about liquibase</a> I will provide a small tutorial for node's  <a href="https://github.com/kunklejr/node-db-migrate" target="_blank">db-migrate</a>
+
+I am much more used to this kind of tool in which the developer's responsability of providing migrations is done in the same language of development. The fundamentals are the same. It seems to me that liquibase can be a bit more powerful when handling severe branching, but the simplicity of these kind of framework tools makes them desirable
+
+I will use the same schema as on the previous post, please check it out
+
+<h2>Setting up node db-migrate</h2>
+
+The setup is as simple as it could, simply install the dependencies
+
+<code>
+sudo npm install db-migrate
+# I will be working with mysql
+sudo npm install mysql
+</code>
+
+And configure your database (in case you haven't done that already)
+
+/"database.json"
+
+
+<h2>Working with migrations</h2>
+
+Once set up, it is time to start creating the migrations. The commands are quite simple
+
+First, create your migration. Give it a meaninful name. The tool appends the creation date to the file name. The command is the following
+
+<code>
+node_modules/db-migrate/bin/db-migrate --env test --migrations-dir=./migrations create add_category_to_project
+</code>
+
+To upgrade or downgrade a certain migration use the following commands
+
+<code>
+node_modules/db-migrate/bin/db-migrate --env test --migrations-dir=./migrations up add_category_to_project -v
+node_modules/db-migrate/bin/db-migrate --env test --migrations-dir=./migrations down  
+</code>
+
+
+
+  
+<h2>Migration granularity</h2>
+  
+For the sake of simplicity I have divided in both examples the migrations in an unnatural way. The granularity of the migrations should be such that allows the environment <strong>to be stable on each migration step</strong>. In our example tutorial, adding the new column category_name to the table project should involve also dropping the constraint of the foreign key and rebuilding the view. Side note, on a heavily object oriented project I would not have views but well, for the example should work
+
+
+
+
+<h2>Working with others</h2>
+
+Some simple directives when working with other
+
+<ul>
+<li>Every single change must be added to a migration</li>
+<li>It is responsibility of the developers to do this, and to coordinate that the migration scripts work in any installation</li>
+<li>It is not acceptable that your migration works on your environment but not on the rest of the developers’ (it would likely mean that it would not run in production)</li>
+<li>All migrations MUST have the downgrade code!! very important for merge handling</li>
+</ul>
+
+

@@ -1,0 +1,13 @@
+%%====================================================================
+%%
+%% @author Juanse Perez Herrero <juanseph@gmail.com> [http://bytefilia.com]
+%% @copyright CC Attribution - 2013
+%%
+%% otp gen_server random_number_server
+%%
+%%====================================================================
+
+%% Running from base folder, Just make and execute run.sh
+
+make
+sh run.sh debug

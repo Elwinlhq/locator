@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    
+    <changeSet author="juanse.perez" id="add-category-to-project">
+        <addColumn tableName="project">
+            <column name="category_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet author="juanse.perez" id="update-category_name">
+       <sql stripComments="true">  
+            UPDATE project 
+                   JOIN 
+                   category ON project.category_id = category.id
+            SET project.category_name = category.name
+         </sql>
+    </changeSet>
+        
+    <changeSet author="juanse.perez" id="drop_foreign_key">
+        <dropForeignKeyConstraint baseTableName="project" constraintName="project_x_category"/>  
+        <dropColumn columnName="category_id" tableName="project"/>
+    </changeSet>
+    
+    <changeSet author="juanse.perez" id="rebuild_view">
+        <dropView viewName="complete_project"/>        
+        <createView viewName="complete_project">
+            SELECT `liquitest`.`project`.`id` AS `id`,
+                   `liquitest`.`project`.`name` AS `name`,
+                   `liquitest`.`project`.`category_name` AS `category`,
+                   `liquitest`.`project_data`.`description` AS `description`
+            FROM `liquitest`.`project` join 
+                 `liquitest`.`project_data` ON `liquitest`.`project_data`.`project_id` = `liquitest`.`project`.`id`
+        </createView>
+    </changeSet>
+            
+</databaseChangeLog>

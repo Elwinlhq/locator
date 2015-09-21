@@ -1,0 +1,22 @@
+%%====================================================================
+%%
+%% @author Juanse Perez Herrero <juanseph@gmail.com> [http://bytefilia.com]
+%% @copyright CC Attribution - 2013
+%%
+%% otp gen_server server_template
+%%
+%%====================================================================
+
+%% Running from base folder, Just make and execute run.sh
+
+make
+sh run.sh debug
+
+%% Run from erl interpreter in src/
+
+c(server_template).
+l(server_template).
+server_template:start([1,2,3]).
+gen_server:cast(server_template, {do_something, "Parameter"}).
+gen_server:call(server_template, {do_something, "Parameter2"}).	
+server_template:stop().
